@@ -12,6 +12,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 app.get('/consents', function(req, res) {
     let consents = consent.getConsents();
@@ -24,8 +29,7 @@ app.get('/consents', function(req, res) {
 app.post('/consent', function(req, res) {
 
     let body = req.body;
-
-    if (!body.name || !body.email || body.consent.lenght === 0) {
+    if (!body.name || !body.email || body.consents.lenght === 0) {
 
         res.status(400).json({
             ok: false,
